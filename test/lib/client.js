@@ -191,3 +191,21 @@ test("feat(client): support single agree ts file", () => {
 
   assert(Array.isArray(agrees));
 });
+
+test("fix(client): send null when body is null", () => {
+  const agree = {
+    request: {
+      path: "/foo",
+      method: "GET",
+      body: null
+    },
+    response: {
+      status: 200
+    }
+  };
+  const client = new Client({ agrees: [agree] });
+  const agrees = client.getAgreement();
+  const { content } = client.setup(agrees[0]);
+
+  assert.equal(content, null);
+});
